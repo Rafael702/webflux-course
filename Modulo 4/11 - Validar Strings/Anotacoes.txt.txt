@@ -1,0 +1,3 @@
+Usando a anotation Not Blank como base parar criar a anotação TrimString.
+
+Class<?>[] groups > grupos de validação. Validação pode ser aplicado em contextos diferentes.
