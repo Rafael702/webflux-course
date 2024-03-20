@@ -1,0 +1,3 @@
+auto-index-creation: true - Cria index no mongo. Valor inserido na property.
+
+@Indexed(unique = true) - o campo não deve ser repetido. Por exemplo, o email deve ser único. Deve existir apenas um email por usuario e não deve repetir.
