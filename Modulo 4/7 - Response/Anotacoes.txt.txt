@@ -1,0 +1,4 @@
+Record - Funcionalidade do Java 14 que permite que crie classes de valor de forma mais concisa.
+Diferenças: Não precisa passar uma visibilidade. 
+Não tem métodos acessores.
+Gera toString, equals,hashcode, getter e setter automaticamente.
