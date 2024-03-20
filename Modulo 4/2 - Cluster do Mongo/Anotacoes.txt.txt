@@ -1,0 +1,4 @@
+Criar cluster no Mongo Atlas
+
+Uri de acesso ao cluster:
+mongodb+srv://admin:<password>@webfluxcoursecluster.d8pbhpd.mongodb.net/nome-do-cluster?retryWrites=true&w=majority&appName=WebfluxCourseCluster

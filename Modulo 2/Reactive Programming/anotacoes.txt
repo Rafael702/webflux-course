@@ -1,0 +1,23 @@
+Reative Programming:
+
+    A programação reativa é um paradigma de programação que promove uma abordagem assincrona
+    sem bloqueio e orientada a eventos para o processamento de dados. A programação reativa 
+    envolve modelar dados e eventos como fluxos de dados observavéis e implementar rotinas de 
+    processamento de dados para reagir às mudanças nesses fluxos.
+    Processamento de dados com bloqueio e sem bloqueio
+
+Processamento de Solicitação com bloqueio:
+    Presentation Layer - Controller
+    Thread - Menor parte do servidor    
+    Realiza chamada no banco de dado (Db Layer) e a thread é bloqueada para realização da operação na base.
+
+Processamento de Solicitação Não bloqueante
+    Presentation Layer - Controller
+    Thread - Menor parte do servidor    
+    Realiza chamada no banco de dado (Db Layer) e a thread não fica bloqueada para realização da operação na base,
+    pois a aplicação seguirá com outras requisições. Assim que a operação for encerrada, a aplicação retornará a 
+    resposta.
+    Event Concurrent Model.
+
+
+Publisher do Reactive Streams
