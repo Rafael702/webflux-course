@@ -1,0 +1,4 @@
+Com mapStruct é possivel realizar o mapeamento dos campos e transformar em uma entidade. 
+Ver a pasta build>generate>annotationProcessor>java>main
+
+then() - Retorna void
