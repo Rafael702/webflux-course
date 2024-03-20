@@ -1,0 +1,7 @@
+Mono e Flux como retorno.
+
+O Mono trabalha com o conceito de 1 ou zero. Onde pode ser encontrado um usuario ou zero usuarios.
+
+Flux - Fluxo de usuarios - Varios usuarios ou zero.
+
+Controller deve estar mais limpo possivel, sem regras de negocio.
