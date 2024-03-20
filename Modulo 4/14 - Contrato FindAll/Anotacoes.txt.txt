@@ -1,0 +1,2 @@
+O spring web flux possui suporte ao Back Pressure, quando o cliente recebe as resposta da maneira que ele consegue receber.
+Ambiente Mobile com internet fraca, não possui força suficiente pra puxar todos os usuarios da base. Então, a aplicação retorna na medida que se pode receber.
