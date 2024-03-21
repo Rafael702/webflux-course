@@ -166,7 +166,7 @@ class UserControllerImplTest {
 
     @Test
     @DisplayName("Test update endpoint with success")
-    void update() {
+    void testUpdateWithSuccess() {
         final var id = "123456";
         UserRequest request = new UserRequest("Rafael", "rafael@email.com", "123");
         final var userResponse = new UserResponse(id, "Rafael", "rafael@mail.com", "123");
@@ -186,11 +186,22 @@ class UserControllerImplTest {
                 .jsonPath("$.email").isEqualTo(userResponse.email())
                 .jsonPath("$.password").isEqualTo(userResponse.password());
 
-        verify(service, times(1)).update(anyString(),any(UserRequest.class));
+        verify(service, times(1)).update(anyString(), any(UserRequest.class));
         verify(mapper, times(1)).toResponse(any(User.class));
     }
 
     @Test
-    void delete() {
+    @DisplayName("Test delete endpoint with success")
+    void testDeleteWithSuccess() {
+        final var id = "123456";
+
+        when(service.delete(anyString())).thenReturn(just(User.builder().build()));
+
+
+        webTestClient.delete().uri("/users/" + id)
+                .exchange()
+                .expectStatus().isOk();
+
+        verify(service, times(1)).delete(anyString());
     }
 }
