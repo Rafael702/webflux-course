@@ -99,4 +99,19 @@ class UserServiceTest {
         verify(repository, times(1)).save(any(User.class));
         verify(repository, times(1)).findById(anyString());
     }
+
+    @Test
+    void testDelete() {
+        User entity = User.builder().build();
+        when(repository.findAndRemove(anyString())).thenReturn(Mono.just(entity));
+
+        Mono<User> result = service.delete("123");
+
+        StepVerifier.create(result)
+                .expectNextMatches(user -> user.getClass() == User.class)
+                .expectComplete()
+                .verify();
+
+        verify(repository, times(1)).findAndRemove(anyString());
+    }
 }
