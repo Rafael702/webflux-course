@@ -1,0 +1,1 @@
+.block() -> Cria Subscribe para o Publisher
