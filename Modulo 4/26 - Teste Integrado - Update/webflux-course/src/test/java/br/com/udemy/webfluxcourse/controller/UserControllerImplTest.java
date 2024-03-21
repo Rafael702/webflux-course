@@ -5,6 +5,7 @@ import br.com.udemy.webfluxcourse.mapper.UserMapper;
 import br.com.udemy.webfluxcourse.model.request.UserRequest;
 import br.com.udemy.webfluxcourse.model.response.UserResponse;
 import br.com.udemy.webfluxcourse.service.UserService;
+import com.mongodb.reactivestreams.client.MongoClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,9 @@ class UserControllerImplTest {
 
     @MockBean
     private UserMapper mapper;
+
+    @MockBean
+    private MongoClient mongoClient;
 
     @Test
     @DisplayName("Test endpoint save with success")
@@ -132,6 +136,10 @@ class UserControllerImplTest {
                 .jsonPath("$.name").isEqualTo(userResponse.name())
                 .jsonPath("$.email").isEqualTo(userResponse.email())
                 .jsonPath("$.password").isEqualTo(userResponse.password());
+
+        verify(service, times(1)).findById(anyString());
+        verify(mapper, times(1)).toResponse(any(User.class));
+
     }
 
     @Test
@@ -151,10 +159,35 @@ class UserControllerImplTest {
                 .jsonPath("$[0].name").isEqualTo(userResponse.name())
                 .jsonPath("$[0].email").isEqualTo(userResponse.email())
                 .jsonPath("$[0].password").isEqualTo(userResponse.password());
+
+        verify(service, times(1)).findAll();
+        verify(mapper, times(1)).toResponse(any(User.class));
     }
 
     @Test
+    @DisplayName("Test update endpoint with success")
     void update() {
+        final var id = "123456";
+        UserRequest request = new UserRequest("Rafael", "rafael@email.com", "123");
+        final var userResponse = new UserResponse(id, "Rafael", "rafael@mail.com", "123");
+
+        when(service.update(anyString(), any(UserRequest.class))).thenReturn(just(User.builder().build()));
+        when(mapper.toResponse(any(User.class))).thenReturn(userResponse);
+
+
+        webTestClient.patch().uri("/users/" + id)
+                .contentType(APPLICATION_JSON)
+                .body(fromValue(request))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(userResponse.id())
+                .jsonPath("$.name").isEqualTo(userResponse.name())
+                .jsonPath("$.email").isEqualTo(userResponse.email())
+                .jsonPath("$.password").isEqualTo(userResponse.password());
+
+        verify(service, times(1)).update(anyString(),any(UserRequest.class));
+        verify(mapper, times(1)).toResponse(any(User.class));
     }
 
     @Test
