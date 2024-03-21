@@ -17,6 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 import static reactor.core.publisher.Mono.just;
@@ -45,6 +46,62 @@ class UserControllerImplTest {
                 .expectStatus().isCreated();
 
         verify(service, times(1)).save(any(UserRequest.class));
+    }
+    @Test
+    @DisplayName("Test endpoint save with bad request when name is invalid")
+    void testSaveWithBadRequestWhenNameIsInvalid() {
+        UserRequest request = new UserRequest(" Rafael", "rafael@email.com", "123");
+
+        webTestClient.post().uri("/users")
+                .contentType(APPLICATION_JSON)
+                .body(fromValue(request))
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody()
+                .jsonPath("$.path").isEqualTo("/users")
+                .jsonPath("$.status").isEqualTo(BAD_REQUEST.value())
+                .jsonPath("$.error").isEqualTo("Validation Error")
+                .jsonPath("$.message").isEqualTo("Error on validation attributes")
+                .jsonPath("$.errors[0].fieldName").isEqualTo("name")
+                .jsonPath("$.errors[0].message").isEqualTo("field cannot have blank space at the beginning or at end");
+
+    }
+    @Test
+    @DisplayName("Test endpoint save with bad request when password is invalid")
+    void testSaveWithBadRequestWhenPasswordIsInvalid() {
+        UserRequest request = new UserRequest("Rafael", "rafael@email.com", " 123");
+
+        webTestClient.post().uri("/users")
+                .contentType(APPLICATION_JSON)
+                .body(fromValue(request))
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody()
+                .jsonPath("$.path").isEqualTo("/users")
+                .jsonPath("$.status").isEqualTo(BAD_REQUEST.value())
+                .jsonPath("$.error").isEqualTo("Validation Error")
+                .jsonPath("$.message").isEqualTo("Error on validation attributes")
+                .jsonPath("$.errors[0].fieldName").isEqualTo("password")
+                .jsonPath("$.errors[0].message").isEqualTo("field cannot have blank space at the beginning or at end");
+
+    }
+    @Test
+    @DisplayName("Test endpoint save with bad request when email is invalid")
+    void testSaveWithBadRequestWhenEmailIsInvalid() {
+        UserRequest request = new UserRequest("Rafael", "rafaelemail.com", "123");
+
+        webTestClient.post().uri("/users")
+                .contentType(APPLICATION_JSON)
+                .body(fromValue(request))
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody()
+                .jsonPath("$.path").isEqualTo("/users")
+                .jsonPath("$.status").isEqualTo(BAD_REQUEST.value())
+                .jsonPath("$.error").isEqualTo("Validation Error")
+                .jsonPath("$.message").isEqualTo("Error on validation attributes")
+                .jsonPath("$.errors[0].fieldName").isEqualTo("email")
+                .jsonPath("$.errors[0].message").isEqualTo("invalid email");
     }
 
     @Test
