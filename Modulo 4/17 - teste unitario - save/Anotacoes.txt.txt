@@ -1,0 +1,3 @@
+StepVerifier - Classe de verificação do Reactor que permite verificar o comportamento do publisher.
+
+.create - Cria um novo step verifier para o publisher
