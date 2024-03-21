@@ -32,7 +32,7 @@ class UserServiceTest {
     private UserService service;
 
     @Test
-    void save() {
+    void testSave() {
         UserRequest request = new UserRequest("rafael", "rafael@mail.com", "123");
         User entity = User.builder().build();
 
